@@ -61,20 +61,33 @@ window.addEventListener("mousemove", (event) => {
   parallaxTarget.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 });
 
-contactForm.addEventListener("submit", (event) => {
+contactForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
+  const submitButton = contactForm.querySelector("button[type='submit']");
   const formData = new FormData(contactForm);
-  const name = formData.get("name").trim();
-  const contact = formData.get("contact").trim();
-  const service = formData.get("service").trim();
-  const message = formData.get("message").trim();
 
-  const subject = encodeURIComponent(`ALIDER Anfrage: ${service}`);
-  const body = encodeURIComponent(
-    `Name: ${name}\nKontakt: ${contact}\nLeistung: ${service}\n\nNachricht:\n${message}`
-  );
+  submitButton.disabled = true;
+  submitButton.textContent = "Wird gesendet...";
+  formNote.textContent = "Ihre Anfrage wird gesendet.";
 
-  formNote.textContent = "Bereit. Ihr E-Mail-Programm wird mit der Anfrage geöffnet.";
-  window.location.href = `mailto:hello@example.com?subject=${subject}&body=${body}`;
+  try {
+    const response = await fetch(contactForm.action, {
+      method: "POST",
+      body: formData,
+      headers: { Accept: "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error("Formspree request failed");
+    }
+
+    contactForm.reset();
+    formNote.textContent = "Danke. Ihre Anfrage wurde gesendet. Ich melde mich so schnell wie möglich.";
+  } catch (error) {
+    formNote.textContent = "Leider konnte die Anfrage nicht gesendet werden. Bitte kontaktieren Sie mich direkt per E-Mail oder WhatsApp.";
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = "Anfrage senden";
+  }
 });

@@ -433,7 +433,7 @@
           </div>
         </div>
 
-        <form class="contact-form reveal" id="contactForm">
+        <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/mdabqkrp" method="POST">
           <label>
             Name
             <input type="text" name="name" placeholder="Ihr Name" required />
@@ -442,6 +442,7 @@
             Kontakt
             <input type="text" name="contact" placeholder="E-Mail, WhatsApp oder Instagram" required />
           </label>
+          <input type="hidden" name="_subject" value="Neue ALIDER Anfrage" />
           <label>
             Leistung
             <select name="service" required>
@@ -461,7 +462,7 @@
           </label>
           <button class="button button-primary" type="submit">Anfrage senden</button>
           <p class="form-note" id="formNote">
-            Die Anfrage wird als E-Mail vorbereitet. Für direkte Website-Formulare kann später ein Formularservice verbunden werden.
+            Ihre Anfrage wird direkt über das Kontaktformular gesendet.
           </p>
         </form>
       </section>
