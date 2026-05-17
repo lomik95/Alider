@@ -7,7 +7,7 @@ const modalLinks = document.querySelectorAll("[data-modal]");
 const closeModalButtons = document.querySelectorAll("[data-close-modal]");
 
 const motionTiles = document.querySelectorAll(
-  ".service-card, .project-card, .industry-grid span, .contact-form, .local-panel, .hero-visual"
+  ".mosaic-card, .hero-center, .service-card, .project-card, .industry-grid span, .contact-form, .local-panel"
 );
 
 motionTiles.forEach((tile, index) => {
