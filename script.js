@@ -6,6 +6,14 @@ const projectCards = document.querySelectorAll(".project-card");
 const modalLinks = document.querySelectorAll("[data-modal]");
 const closeModalButtons = document.querySelectorAll("[data-close-modal]");
 
+const motionTiles = document.querySelectorAll(
+  ".service-card, .project-card, .industry-grid span, .contact-form, .local-panel, .hero-visual"
+);
+
+motionTiles.forEach((tile, index) => {
+  tile.style.setProperty("--tile-delay", `${Math.min(index * 70, 560)}ms`);
+});
+
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -32,11 +40,17 @@ projectCards.forEach((card) => {
 });
 
 window.addEventListener("mousemove", (event) => {
-  if (!parallaxTarget || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  const x = (event.clientX / window.innerWidth - 0.5) * 12;
-  const y = (event.clientY / window.innerHeight - 0.5) * 12;
-  parallaxTarget.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+  const x = event.clientX / window.innerWidth - 0.5;
+  const y = event.clientY / window.innerHeight - 0.5;
+
+  document.documentElement.style.setProperty("--pointer-x", `${x * 18}px`);
+  document.documentElement.style.setProperty("--pointer-y", `${y * 18}px`);
+
+  if (parallaxTarget) {
+    parallaxTarget.style.transform = `translate3d(${x * 14}px, ${y * 14}px, 0)`;
+  }
 });
 
 const openModal = (id) => {
@@ -96,7 +110,7 @@ if (contactForm) {
 
       contactForm.reset();
       formNote.className = "form-note success";
-      formNote.textContent = "Danke. Ihre Anfrage wurde gesendet. Ich melde mich so schnell wie möglich.";
+      formNote.textContent = "Danke. Ihre Anfrage wurde gesendet. Ich melde mich so schnell wie m\u00f6glich.";
     } catch (error) {
       formNote.className = "form-note error";
       formNote.textContent = "Leider konnte die Anfrage nicht gesendet werden. Bitte kontaktieren Sie mich direkt per E-Mail oder WhatsApp.";
